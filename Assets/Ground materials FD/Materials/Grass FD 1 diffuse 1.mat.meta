@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/ScriptableObject/SparrowBonusConfig.asset.meta
+guid: fd5e7b0aeeebb4c3b933a5bcdb144a10
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+========
+guid: 62f56326ab8db9f4388f4bbbba00a996
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+>>>>>>>> origin/Emil/Chicken_And_refactor:Assets/Ground materials FD/Materials/Grass FD 1 diffuse 1.mat.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
