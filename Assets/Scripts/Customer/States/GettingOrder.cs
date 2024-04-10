@@ -37,7 +37,7 @@ namespace Customer.States
 
         private void EnterNegotiatingState()
         {
-            _stateMachine.Enter<Negotiating, global::Order.Order>(_order);
+            _stateMachine.Enter<Negotiating, CoffeeShop.CoffeeShop>(_coffeeShop);
         }
         private void OnTriggerEnter(Collider other)
         {

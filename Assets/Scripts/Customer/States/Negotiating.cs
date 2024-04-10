@@ -6,26 +6,27 @@ using Random = UnityEngine.Random;
 
 namespace Customer.States
 {
-    public class Negotiating : MonoBehaviour, IPayLoadedState<Order.Order>
+    public class Negotiating : MonoBehaviour, IPayLoadedState<CoffeeShop.CoffeeShop>
     {
         public event Action<Answer> AnswerHandled; 
 
-        [SerializeField] private string[] _noOptions;
         [SerializeField] private AnswerOption[] _answerOptions;
 
+        private ICustomer _customer;
         private NegotiationSystem.NegotiationSystem _negotiationSystem;
         private StateMachine _stateMachine;
         private int _offerCounter;
-        private Order.Order _order;
+        private CoffeeShop.CoffeeShop _coffeeShop;
 
         public void Initialize(StateMachine stateMachine)
         {
             _stateMachine = stateMachine;
+            _customer = GetComponent<ICustomer>();
         }
         
-        public void OnEnter(Order.Order order)
+        public void OnEnter(CoffeeShop.CoffeeShop coffeeShop)
         {
-            _order = order;
+            _coffeeShop = coffeeShop;
             _negotiationSystem.StartConversation(this);
         }
 
@@ -43,15 +44,16 @@ namespace Customer.States
                 answer.SetProduct(null);
                 AnswerHandled?.Invoke(answer);
                 
-                EnterMovingToTarget();
+                EnterMovingToTarget(true);
                 return;
             }
             if (question.MessageType == MessageType.Greeting)
             {
+                var order = _customer.Order;
                 answer.SetName("Helen");
                 answer.SetMessageType(MessageType.Order);
-                answer.SetMessage("Hello, can I Have one " + _order.Product.Type + "?");
-                answer.SetProduct(_order.Product);
+                answer.SetMessage("Hello, can I Have one " + order.Product.Type + "?");
+                answer.SetProduct(order.Product);
                 Debug.Log(answer.Product);
                 AnswerHandled?.Invoke(answer);
                 return;
@@ -78,15 +80,24 @@ namespace Customer.States
                 answer.SetMessage("Thank you. Buy");
                 answer.SetProduct(null);
 
-                EnterMovingToTarget();
+                EnterMovingToTarget(false);
                 AnswerHandled?.Invoke(answer);
             }
 
         }
 
-        private void EnterMovingToTarget()
+        private void EnterMovingToTarget(bool isGoingToExit)
         {
-            _stateMachine.Enter<MovingToTarget, Vector3>(new Vector3(0.529999971f,-0.200000003f,11.6199999f));
+            if (isGoingToExit)
+            {
+                var exitPosition = new Vector3(0.529999971f, -0.200000003f, 11.6199999f);
+                _stateMachine.Enter<MovingToTarget, Vector3>(exitPosition);
+            }
+            else
+            {
+                var freeTablePosition = _coffeeShop.GetFreeTable();
+                _stateMachine.Enter<MovingToTarget, Vector3>(freeTablePosition.Value);
+            }
         }
 
         private void OnTriggerEnter(Collider other)
