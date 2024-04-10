@@ -1,54 +1,58 @@
 using System;
+using System.Threading.Tasks;
+using Customer.States;
 using Player;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace NegotiationSystem
 {
     public class NegotiationSystem : MonoBehaviour
     {
-        public event Action<Product.ProductType> CustomerAnswered; 
-        public event Action<bool> PlayerAnswered; 
-        
-        [SerializeField] private TextMeshProUGUI _nameLabel;
-        [SerializeField] private TextMeshProUGUI _dialogLabel;
-        [SerializeField] private ResponseHandler _responseHandler;
+        private event Action<Answer> SomeoneAnswered; 
+        [SerializeField] private NegotiationView _negotiationView;
+        [SerializeField] private AnswerHandler _answerHandler;
+        private Negotiating _customer;
 
-        [SerializeField] private Button[] _buttons;
         private void Awake()
         {
-            CustomerAnswered += _responseHandler.OnCustomerAnsweredGot;
-            _responseHandler.AnswerHandled += OnResponse;
+            SomeoneAnswered += _negotiationView.OnSomeoneAnswered;
+            _answerHandler.AnswerHandled += OnSomeoneAnswered;
         }
 
-        public void OnResponse(string name, string message, Product.ProductType productType)
+        public async Task StartConversation(Negotiating customer)
         {
-            _nameLabel.text = name;
-            _dialogLabel.text = message;
-            CustomerAnswered?.Invoke(productType);
+            _customer = customer;
+            _customer.AnswerHandled += OnSomeoneAnswered;
             
-            foreach (var button in _buttons)
-            {
-                button.gameObject.SetActive(true);
-            }
+            var playerAnswer = _answerHandler.OnSomeoneCameUp();
+            SomeoneAnswered?.Invoke(playerAnswer);
+            
+            _customer.AnswerQuestion(playerAnswer);
         }
-        
-        private void OnResponse(string name, string message, bool wasConversationStopped)
+
+        private void OnSomeoneAnswered(Answer answer)
         {
-            _nameLabel.text = name;
-            _dialogLabel.text = message;
-            
-            PlayerAnswered?.Invoke(wasConversationStopped);
-            foreach (var button in _buttons)
+            KeepNegotiating(answer);
+        }
+        private void KeepNegotiating(Answer question)
+        {
+            if (question.SpeakerName == "Owner")
             {
-                button.gameObject.SetActive(false);
+                _customer.AnswerQuestion(question);
             }
+            
+            else
+            {
+                _answerHandler.HandleAnswer(question);
+            }
+            
+            SomeoneAnswered?.Invoke(question);
         }
 
         private void OnDestroy()
         {
-            _responseHandler.AnswerHandled -= OnResponse;
+            SomeoneAnswered -= _negotiationView.OnSomeoneAnswered;
+            _answerHandler.AnswerHandled -= OnSomeoneAnswered;
 
         }
     }

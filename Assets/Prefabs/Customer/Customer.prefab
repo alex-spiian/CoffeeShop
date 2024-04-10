@@ -1405,7 +1405,40 @@ MonoBehaviour:
   _noOptions:
   - No.
   - No, thanks.
-  - No I would not.
+  - Not now.
+  - Nope.
+  - 'Not this time. '
+  - Nah.
+  - "No, sorry, that\u2019s not really my thing "
+  _answerOptions:
+  - <Type>k__BackingField: 4
+    <Option>k__BackingField: No.
+  - <Type>k__BackingField: 3
+    <Option>k__BackingField: Yes.
+  - <Type>k__BackingField: 4
+    <Option>k__BackingField: No, thanks.
+  - <Type>k__BackingField: 3
+    <Option>k__BackingField: Yes.
+  - <Type>k__BackingField: 4
+    <Option>k__BackingField: Not now.
+  - <Type>k__BackingField: 3
+    <Option>k__BackingField: Yes.
+  - <Type>k__BackingField: 4
+    <Option>k__BackingField: Nope.
+  - <Type>k__BackingField: 3
+    <Option>k__BackingField: Yes.
+  - <Type>k__BackingField: 4
+    <Option>k__BackingField: 'Not this time. '
+  - <Type>k__BackingField: 3
+    <Option>k__BackingField: Yes.
+  - <Type>k__BackingField: 4
+    <Option>k__BackingField: Nah.
+  - <Type>k__BackingField: 3
+    <Option>k__BackingField: Yes.
+  - <Type>k__BackingField: 4
+    <Option>k__BackingField: "No, sorry, that\u2019s not really my thing "
+  - <Type>k__BackingField: 3
+    <Option>k__BackingField: Yes.
 --- !u!114 &-2375886279185468143
 MonoBehaviour:
   m_ObjectHideFlags: 0

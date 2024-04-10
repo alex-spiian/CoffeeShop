@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using NegotiationSystem;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,58 +8,63 @@ namespace Customer.States
 {
     public class Negotiating : MonoBehaviour, IState, IInitializable
     {
-        private event Action<string, string, Product.ProductType> Responsing;
+        public event Action<Answer> AnswerHandled; 
+
         [SerializeField] private string[] _noOptions;
+        [SerializeField] private AnswerOption[] _answerOptions;
 
         private NegotiationSystem.NegotiationSystem _negotiationSystem;
-        private ICustomer _customer;
         private StateMachine _stateMachine;
         private int _offerCounter;
 
         public void Initialize(StateMachine stateMachine)
         {
             _stateMachine = stateMachine;
-            _customer = GetComponent<ICustomer>();
 
         }
         
         public void OnEnter()
         {
-            GreetSomeone();
-            _negotiationSystem.PlayerAnswered += OnPlayerAnswered;
+            _negotiationSystem.StartConversation(this);
         }
 
-        private void GreetSomeone()
+        public async Task AnswerQuestion(Answer question)
         {
-            var order = _customer.Order;
-            var message = "Hello! Can I have one " + order.Product.Type;
-            Responsing?.Invoke(_customer.Name, message, order.Product.Type);
-            EnterWaitingResponse();
-        }
+            await Task.Delay(3000);
 
-        private void OnPlayerAnswered(bool wasConversationEnded)
-        {
-            _offerCounter++;
-            SendResponse(wasConversationEnded);
-        }
-        
-        private async Task SendResponse(bool wasConversationEnded)
-        {
-            await Task.Delay(2000);
-            if (_offerCounter > 3)
+            if (_offerCounter >= 3)
             {
-                Responsing?.Invoke(_customer.Name, "Oh my god, drink your coffee yourself dude! better i'll go to kfc", Product.ProductType.Nothing);
+                var answer = new Answer("Helen", MessageType.Goodbye, "Fuck you");
+                AnswerHandled?.Invoke(answer);
                 EnterMovingToTarget();
                 return;
             }
-            if (!wasConversationEnded)
+            if (question.MessageType == MessageType.Greeting)
             {
-                Responsing?.Invoke(_customer.Name, _noOptions[Random.Range(0, _noOptions.Length)], Product.ProductType.Nothing);
+                var answer = new Answer("Helen", MessageType.Order, "Hello, can I Have an espresso?");
+                AnswerHandled?.Invoke(answer);
+                return;
             }
-            else
+
+            if (question.MessageType == MessageType.Offer)
             {
-                Responsing?.Invoke(_customer.Name, "Thank you so much!", Product.ProductType.Nothing);
+                _offerCounter++;
+
+                var randomAnswerOption = _answerOptions[Random.Range(0, _answerOptions.Length)];
+                
+                var answer = new Answer("Helen", randomAnswerOption.Type, randomAnswerOption.Option);
+                answer.SetProductType(Product.ProductType.Cappuccino);
+                AnswerHandled?.Invoke(answer);
+                return;
             }
+
+            if (question.MessageType == MessageType.Goodbye)
+            {
+                var answer = new Answer("Helen", MessageType.Goodbye, "Thank you. Buy");
+                EnterMovingToTarget();
+                AnswerHandled?.Invoke(answer);
+            }
+
         }
         
         private void EnterWaitingResponse()
@@ -76,12 +82,6 @@ namespace Customer.States
             if (!other.CompareTag("NegotiationSystem")) return;
             
             _negotiationSystem = other.GetComponent<NegotiationSystem.NegotiationSystem>();
-            Responsing += _negotiationSystem.OnResponse;
-        }
-
-        private void OnDestroy()
-        {
-            Responsing -= _negotiationSystem.OnResponse;
         }
     }
 }
