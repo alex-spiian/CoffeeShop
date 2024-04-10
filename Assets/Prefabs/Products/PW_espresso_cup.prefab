@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 341138ca36ec4cafb5f72a095a071bc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Price>k__BackingField: 10
-  <Name>k__BackingField: Espresso
+  <Price>k__BackingField: 50
+  <Type>k__BackingField: 0
 --- !u!1 &1652678915735542
 GameObject:
   m_ObjectHideFlags: 0

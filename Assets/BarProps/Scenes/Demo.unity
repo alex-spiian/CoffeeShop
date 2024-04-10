@@ -3465,6 +3465,51 @@ Transform:
   - {fileID: 2058759722}
   m_Father: {fileID: 1652701725}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &933009328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 933009330}
+  - component: {fileID: 933009329}
+  m_Layer: 0
+  m_Name: CoffeeShopEnventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &933009329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933009328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5f26fbdcef4eb4b9838c75ca5613f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wallet: {fileID: 1072539219}
+--- !u!4 &933009330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933009328}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.551831, y: 0.75669456, z: 3.542448}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &944290795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4420,6 +4465,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8380999973973688571, guid: 678bf8bc91771fa498236de892b83d1d, type: 3}
+      propertyPath: _coffeeShopInventory
+      value: 
+      objectReference: {fileID: 933009329}
+    - target: {fileID: 8380999973973688571, guid: 678bf8bc91771fa498236de892b83d1d, type: 3}
+      propertyPath: _answerOptions.Array.data[0].<Product>k__BackingField
+      value: 
+      objectReference: {fileID: 155866726108831145, guid: 7307638cc3cac4fff92198bbb5af0930, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9583,3 +9636,4 @@ SceneRoots:
   - {fileID: 1084109282}
   - {fileID: 1995809747}
   - {fileID: 429562344}
+  - {fileID: 933009330}

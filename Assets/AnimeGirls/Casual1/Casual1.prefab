@@ -397,13 +397,18 @@ MonoBehaviour:
   _answerOptions:
   - <ProductType>k__BackingField: 0
     <Option>k__BackingField: Would you like some syrup?
+    <Product>k__BackingField: {fileID: 0}
   - <ProductType>k__BackingField: 1
     <Option>k__BackingField: Maybe some baking?
+    <Product>k__BackingField: {fileID: -3731037386762512417, guid: 2dd019f1380a8464da36c528baec5b4c, type: 3}
   - <ProductType>k__BackingField: 2
     <Option>k__BackingField: What about a dessert?
+    <Product>k__BackingField: {fileID: 0}
   - <ProductType>k__BackingField: 1
     <Option>k__BackingField: I recommend an amazing donat.
+    <Product>k__BackingField: {fileID: 0}
   _defaultMessage: Thank you for your order. Have a good one!
+  _coffeeShopInventory: {fileID: 0}
 --- !u!114 &8126557580345358468
 MonoBehaviour:
   m_ObjectHideFlags: 0

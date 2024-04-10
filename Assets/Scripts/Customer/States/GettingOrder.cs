@@ -10,6 +10,7 @@ namespace Customer.States
         private StateMachine _stateMachine;
         private CoffeeShop.CoffeeShop _coffeeShop;
         private ICustomer _customer;
+        private global::Order.Order _order;
 
         public void Initialize(StateMachine stateMachine)
         {
@@ -27,25 +28,16 @@ namespace Customer.States
         {
             var availableProducts = _coffeeShop.Menu.AvailableProducts;
             var randomIndex = Random.Range(0, availableProducts.Count);
-            var order = new global::Order.Order(availableProducts[randomIndex]);
-            _customer.SetOrder(order);
+            _order = new global::Order.Order(availableProducts[randomIndex]);
+            _customer.SetOrder(_order);
             Debug.Log("i wanna buy " + availableProducts[randomIndex]);
             
-            EnterMovingToTargetState();
+            EnterNegotiatingState();
         }
 
-        private void EnterMovingToTargetState()
+        private void EnterNegotiatingState()
         {
-            var tablePosition = _coffeeShop.GetFreeTable();
-            if (tablePosition != null)
-            {
-                Debug.Log("i am going to " + tablePosition);
-                _stateMachine.Enter<Negotiating>();
-            }
-            else
-            {
-                // kind of an event that there are no any free tables
-            }
+            _stateMachine.Enter<Negotiating, global::Order.Order>(_order);
         }
         private void OnTriggerEnter(Collider other)
         {

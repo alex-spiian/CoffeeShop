@@ -8,5 +8,7 @@ namespace Player
     {
         [field:SerializeField] public Product.ProductType ProductType { get; private set; }
         [field:SerializeField] public string Option { get; private set; }
+        
+        [field:SerializeField] public Product.Product Product { get; private set; }
     }
 }

@@ -9,6 +9,7 @@ namespace NegotiationSystem
     public class NegotiationSystem : MonoBehaviour
     {
         private event Action<Answer> SomeoneAnswered; 
+        private event Action<Answer> SoldSuccessfully; 
         [SerializeField] private NegotiationView _negotiationView;
         [SerializeField] private AnswerHandler _answerHandler;
         private Negotiating _customer;

@@ -34,5 +34,10 @@ namespace CoffeeShop
 
             return null;
         }
+
+        public int GetProductPrice(Product.ProductType type)
+        {
+            return 0;
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace Customer.States
         
         private void EnterNegotiating()
         {
-            _stateMachine.Enter<Negotiating>();
+            //_stateMachine.Enter<Negotiating>();
         }
         public void OnEnter()
         {

@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace Customer.States
 {
-    public class Negotiating : MonoBehaviour, IState, IInitializable
+    public class Negotiating : MonoBehaviour, IPayLoadedState<Order.Order>
     {
         public event Action<Answer> AnswerHandled; 
 
@@ -16,15 +16,16 @@ namespace Customer.States
         private NegotiationSystem.NegotiationSystem _negotiationSystem;
         private StateMachine _stateMachine;
         private int _offerCounter;
+        private Order.Order _order;
 
         public void Initialize(StateMachine stateMachine)
         {
             _stateMachine = stateMachine;
-
         }
         
-        public void OnEnter()
+        public void OnEnter(Order.Order order)
         {
+            _order = order;
             _negotiationSystem.StartConversation(this);
         }
 
@@ -32,16 +33,26 @@ namespace Customer.States
         {
             await Task.Delay(3000);
 
+            var answer = question;
+            
             if (_offerCounter >= 3)
             {
-                var answer = new Answer("Helen", MessageType.Goodbye, "Fuck you");
+                answer.SetName("Helen");
+                answer.SetMessageType(MessageType.Goodbye);
+                answer.SetMessage("Fuck you");
+                answer.SetProduct(null);
                 AnswerHandled?.Invoke(answer);
+                
                 EnterMovingToTarget();
                 return;
             }
             if (question.MessageType == MessageType.Greeting)
             {
-                var answer = new Answer("Helen", MessageType.Order, "Hello, can I Have an espresso?");
+                answer.SetName("Helen");
+                answer.SetMessageType(MessageType.Order);
+                answer.SetMessage("Hello, can I Have one " + _order.Product.Type + "?");
+                answer.SetProduct(_order.Product);
+                Debug.Log(answer.Product);
                 AnswerHandled?.Invoke(answer);
                 return;
             }
@@ -51,27 +62,28 @@ namespace Customer.States
                 _offerCounter++;
 
                 var randomAnswerOption = _answerOptions[Random.Range(0, _answerOptions.Length)];
+                answer.SetProduct(randomAnswerOption.Type == MessageType.Agreement ? question.Product : null);
                 
-                var answer = new Answer("Helen", randomAnswerOption.Type, randomAnswerOption.Option);
-                answer.SetProductType(Product.ProductType.Cappuccino);
+                answer.SetName("Helen");
+                answer.SetMessageType(randomAnswerOption.Type);
+                answer.SetMessage(randomAnswerOption.Option);
                 AnswerHandled?.Invoke(answer);
                 return;
             }
 
             if (question.MessageType == MessageType.Goodbye)
             {
-                var answer = new Answer("Helen", MessageType.Goodbye, "Thank you. Buy");
+                answer.SetName("Helen");
+                answer.SetMessageType(MessageType.Goodbye);
+                answer.SetMessage("Thank you. Buy");
+                answer.SetProduct(null);
+
                 EnterMovingToTarget();
                 AnswerHandled?.Invoke(answer);
             }
 
         }
-        
-        private void EnterWaitingResponse()
-        {
-            _stateMachine.Enter<WaitingResponse>();
-        }
-        
+
         private void EnterMovingToTarget()
         {
             _stateMachine.Enter<MovingToTarget, Vector3>(new Vector3(0.529999971f,-0.200000003f,11.6199999f));

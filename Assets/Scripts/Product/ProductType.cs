@@ -5,8 +5,7 @@ namespace Product
         Espresso,
         Cappuccino,
         Latte,
+        Syrup,
         Nothing
-
-
     }
 }

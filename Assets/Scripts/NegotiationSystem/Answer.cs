@@ -3,10 +3,10 @@ namespace NegotiationSystem
 {
     public class Answer
     {
-        public string SpeakerName { get; }
-        public MessageType MessageType { get; }
-        public string Message { get; }
-        public Product.ProductType ProductType { get; private set; }
+        public string SpeakerName { get; private set; }
+        public MessageType MessageType { get; private set; }
+        public string Message { get; private set; }
+        public Product.Product Product { get; private set; }
 
         public Answer(string speakerName, MessageType messageType, string message)
         {
@@ -15,9 +15,24 @@ namespace NegotiationSystem
             Message = message;
         }
 
-        public void SetProductType(Product.ProductType type)
+        public void SetProduct(Product.Product product)
         {
-            ProductType = type;
+            Product = product;
+        }
+
+        public void SetName(string name)
+        {
+            SpeakerName = name;
+        }
+        
+        public void SetMessage(string message)
+        {
+            Message = message;
+        }
+        
+        public void SetMessageType(MessageType messageType)
+        {
+            MessageType = messageType;
         }
     }
 }

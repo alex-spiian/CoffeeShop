@@ -1,4 +1,5 @@
 using System;
+using CoffeeShop;
 using NegotiationSystem;
 using UnityEngine;
 using MessageType = NegotiationSystem.MessageType;
@@ -11,6 +12,7 @@ namespace Player
         
         [SerializeField] private AnswerOption[] _answerOptions;
         [SerializeField] private string _defaultMessage;
+        [SerializeField] private CoffeeShopInventory _coffeeShopInventory;
         
         private Product.ProductType _orderedProductType;
         private int _currentIndex;
@@ -27,6 +29,10 @@ namespace Player
 
         public void HandleAnswer(Answer answer)
         {
+            Debug.Log(answer.Product);
+            if (answer.Product == null) return;
+            
+            _coffeeShopInventory.AddProduct(answer.Product);
             if (answer.MessageType == MessageType.Disagreement)
             {
                 Debug.Log("customer answered no " + answer.MessageType);
@@ -46,7 +52,6 @@ namespace Player
             _currentIndex++;
             
             var answer = new Answer(speakerName, messageType, message);
-            answer.SetProductType(Product.ProductType.Cappuccino);
             AnswerHandled?.Invoke(answer);
         }
         
@@ -56,6 +61,7 @@ namespace Player
             var messageType = MessageType.Goodbye;
             var answer = new Answer(speakerName, messageType, _defaultMessage);
             AnswerHandled?.Invoke(answer);
+            _coffeeShopInventory.ChargeForProducts();
         }
     }
 }
