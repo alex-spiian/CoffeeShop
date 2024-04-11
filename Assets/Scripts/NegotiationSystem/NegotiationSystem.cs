@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using Customer;
 using Customer.States;
+using InteractablePoint;
 using Player;
 using UnityEngine;
 
@@ -8,10 +10,13 @@ namespace NegotiationSystem
 {
     public class NegotiationSystem : MonoBehaviour
     {
-        private event Action<Answer> SomeoneAnswered; 
-        private event Action<Answer> SoldSuccessfully; 
+
+        private event Action<Answer> SomeoneAnswered;
+        private event Action<Answer> SoldSuccessfully;
+
         [SerializeField] private NegotiationView _negotiationView;
         [SerializeField] private AnswerHandler _answerHandler;
+        [SerializeField] private CoffeeShop.CoffeeShop _coffeeShop;
         private Negotiating _customer;
 
         private void Awake()
@@ -37,6 +42,10 @@ namespace NegotiationSystem
         }
         private void KeepNegotiating(Answer question)
         {
+            if (question.MessageType == MessageType.Goodbye)
+            {
+                _coffeeShop.Bar.Queue.OnCustomerLeft(_customer.GetComponent<ICustomerInQueue>());
+            }
             if (question.SpeakerName == "Owner")
             {
                 _customer.AnswerQuestion(question);

@@ -1,4 +1,5 @@
 using System;
+using InteractablePoint;
 using UnityEngine;
 
 namespace Customer.States
@@ -29,13 +30,31 @@ namespace Customer.States
         private void Move(Vector3 position)
         {
             var movableCustomer = (IMovable)_customer;
-            movableCustomer.Move(position, OnCameToTarget);
+            movableCustomer.Move(position);
         }
 
-        private void OnCameToTarget()
+        private void EnterGettingOrder()
         {
-            Debug.Log("came to target");
+            Debug.Log("EnterGettingOrder");
             _stateMachine.Enter<GettingOrder>();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent(out IInteractablePoint point))
+            {
+                switch (point.Type)
+                {
+                    case InteractableType.CoffeeShop:
+                        var coffeeShop = (CoffeeShop.CoffeeShop)point;
+                        var queue = coffeeShop.Bar.Queue;
+                        Move(queue.GetFreePosition((ICustomerInQueue)_customer));
+                        break;
+                    case InteractableType.Bar:
+                        EnterGettingOrder();
+                        break;
+                }
+            }
         }
     }
 }

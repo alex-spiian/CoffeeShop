@@ -49,9 +49,11 @@ namespace Player
             var speakerName = "Owner";
             var messageType = MessageType.Offer;
             var message = _answerOptions[_currentIndex].Option;
-            _currentIndex++;
             
             var answer = new Answer(speakerName, messageType, message);
+            answer.SetProduct(_answerOptions[_currentIndex].Product);
+            _currentIndex++;
+
             AnswerHandled?.Invoke(answer);
         }
         

@@ -32,5 +32,11 @@ namespace Customermovement
             this.CameToTarget = CameToTarget;
             _navMeshAgent.SetDestination(targetPosition);
         }
+        
+        public void Move(Vector3 targetPosition)
+        {
+            _cameToTarget = false;
+            _navMeshAgent.SetDestination(targetPosition);
+        }
     }
 }

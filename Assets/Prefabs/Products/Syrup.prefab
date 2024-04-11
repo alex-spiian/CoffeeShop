@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 341138ca36ec4cafb5f72a095a071bc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Price>k__BackingField: 5
+  <Price>k__BackingField: 10
   <Type>k__BackingField: 3

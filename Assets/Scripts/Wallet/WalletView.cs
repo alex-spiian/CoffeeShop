@@ -20,7 +20,6 @@ namespace Wallet
         }
         private void UpdateView(int amountMoney)
         {
-            Debug.Log(amountMoney);
             _money.text = amountMoney.ToString();
         }
         

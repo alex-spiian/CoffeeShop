@@ -1,16 +1,20 @@
-using System;
-using System.Collections.Generic;
+using Customer;
+using InteractablePoint;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CoffeeShop
 {
-    public class CoffeeShop : MonoBehaviour
+    public class CoffeeShop : MonoBehaviour, IInteractablePoint
     {
         [SerializeField]
         private Table.Table[] _allTables;
         [SerializeField]
         private Product.Product[] _products;
-        
+
+        [field:SerializeField] public Bar.Bar Bar { get; private set; }
+        [field:SerializeField] public InteractableType Type { get; private set; }
+        public Vector3 Position => transform.position;
         public Menu.Menu Menu { get; private set; }
 
         private void Awake()
@@ -21,7 +25,6 @@ namespace CoffeeShop
                 Menu.AddProduct(product);
             }
         }
-
         public Vector3? GetFreeTable()
         {
             foreach (var table in _allTables)
