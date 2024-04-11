@@ -1,14 +1,13 @@
-using Customer;
+using System.Collections.Generic;
 using InteractablePoint;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CoffeeShop
 {
     public class CoffeeShop : MonoBehaviour, IInteractablePoint
     {
         [SerializeField]
-        private Table.Table[] _allTables;
+        private List<Table.Table> _allTables;
         [SerializeField]
         private Product.Product[] _products;
 
@@ -36,6 +35,11 @@ namespace CoffeeShop
             }
 
             return null;
+        }
+
+        public void AddTable(Table.Table table)
+        {
+            _allTables.Add(table);
         }
 
         public int GetProductPrice(Product.ProductType type)

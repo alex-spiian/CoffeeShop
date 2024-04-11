@@ -5,7 +5,10 @@ namespace Product
         Espresso,
         Cappuccino,
         Latte,
+        Lemonade,
         Syrup,
+        Croissant,
+        Sandwich,
         Nothing
     }
 }

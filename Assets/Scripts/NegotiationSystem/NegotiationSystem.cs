@@ -42,10 +42,11 @@ namespace NegotiationSystem
         }
         private void KeepNegotiating(Answer question)
         {
-            if (question.MessageType == MessageType.Goodbye)
+            if (question.MessageType == MessageType.Goodbye && question.SpeakerName != "Owner")
             {
                 _coffeeShop.Bar.Queue.OnCustomerLeft(_customer.GetComponent<ICustomerInQueue>());
             }
+            
             if (question.SpeakerName == "Owner")
             {
                 _customer.AnswerQuestion(question);

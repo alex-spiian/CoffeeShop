@@ -5,6 +5,7 @@ namespace CoffeeShop.Table
 {
     public class Table : MonoBehaviour
     {
+        [field:SerializeField] public int Price { get; private set; }
         [SerializeField] private Transform _seat;
         public bool IsAvailable;
         private int _busySeatsCount;
