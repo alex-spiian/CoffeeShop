@@ -11,7 +11,7 @@ namespace Wallet
 
         private void Start()
         {
-            AddMoney(100);
+            AddMoney(1000);
         }
 
         public void AddMoney(int money)

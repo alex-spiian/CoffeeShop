@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CoffeeShop.Table;
 using UnityEngine;
@@ -24,6 +25,7 @@ namespace ExpansionSystem
                     return;
                 }
                 
+                Debug.Log("was bought " + productType);
                 _wallet.SpendMoney(_unavailableProducts[i].Price);
                 _coffeeShop.Menu.AddProduct(_unavailableProducts[i]);
                 _unavailableProducts.RemoveAt(i);

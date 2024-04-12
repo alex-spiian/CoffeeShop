@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ExpansionSystem
@@ -11,9 +12,11 @@ namespace ExpansionSystem
             expansionSystem.IncreaseSeatingCapacity();
         }
 
-        public void BuyNewProduct(Product.ProductType productType)
+        public void BuyNewProduct(string productType)
         {
-            expansionSystem.AddNewProduct(productType);
+            Enum.TryParse(productType, out Product.ProductType type);
+
+            expansionSystem.AddNewProduct(type);
         }
 
         public void OpenNewHall()
